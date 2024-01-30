@@ -1,50 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-from flask import Blueprint, abort, jsonify, request
-from .models import Contents, db
 import uuid
-
-bp_blog = Blueprint('blog',__name__, subdomain='blog')
-
-
-@bp_blog.route('/', methods=['GET'])
-def list_blog():
-   contents = Contents.query.all()
-   
-   response = []
-   for data in contents:
-      response.append({
-         "id": data.id,
-         "title" : data.title,
-         "body": data.body
-      })
-   return jsonify(response), 200
-
-
-@bp_blog.route('/post', methods=['POST'])
-def post():
-   data = request.get_json()
-
-   query = Contents(
-      id    = str(uuid.uuid4()),
-      title = data['title'],
-      body  = data['body']
-   )
-
-   db.session.add(query)
-
-   try:
-      db.session.commit()
-   except Exception as error:
-      print(error)
-      return "Error!", 400
-
-   return "Data entered successfully!", 201
-=======
-=======
->>>>>>> 78d4ede (create auth)
-import uuid
-from flask import Blueprint, request, redirect, session
+from flask import Blueprint, request, redirect, render_template, abort
 
 from .models import Contents, db
 
@@ -54,11 +9,23 @@ blog = Blueprint('blog', __name__)
 
 @blog.route('/', methods=['GET'])
 def get_blog():
-   if not session.get("token"):
-      return redirect('/login')
-<<<<<<< HEAD
-   return "HELLO world!"
->>>>>>> 78d4ede (create auth)
-=======
-   return "HELLO world!"
->>>>>>> 78d4ede (create auth)
+   contents = Contents.query.filter(Contents.status == "published").order_by(Contents.created_at.desc()).all()
+   return render_template('index.html', contents=contents) 
+
+
+@blog.route('/<slug>', methods=['GET'])
+def render_text(slug):
+   """ if not session.get("token"):
+        return redirect('/login') """
+
+   data = Contents.query.filter(Contents.slug == slug).first()
+   
+   if data is None:
+      abort(404)
+
+   title = data.title
+   body  = data.body
+   date  = data.created_at.strftime("%d/%m/%Y, %H:%M %p") 
+
+   return render_template('blog/render_text.html', title=title, body=body, date=date)
+

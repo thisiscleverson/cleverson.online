@@ -1,4 +1,3 @@
-from flask import Flask
 from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_session import Session
@@ -8,14 +7,6 @@ from .models import config_models
 
 def create_register_blueprint(app):
    from .auth import auth
-   from .blog import blog
-
-   app.register_blueprint(auth)
-   app.register_blueprint(blog)
-
-
-def create_app():
-   app = Flask(__name__, template_folder='../templates')
    from .admin import admin
    from .blog import blog
 

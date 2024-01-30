@@ -1,23 +1,12 @@
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-db = SQLAlchemy()
-
-def config(app):
-=======
-=======
->>>>>>> 78d4ede (create auth)
-from sqlalchemy import Integer, String, Column, Text, Enum
+from sqlalchemy import Integer, String, Column, Text, Enum, CheckConstraint, DateTime
 
 
 db = SQLAlchemy()
 
 def config_models(app) -> None:
-<<<<<<< HEAD
->>>>>>> 78d4ede (create auth)
-=======
->>>>>>> 78d4ede (create auth)
    db.init_app(app)
    app.db = db
 
@@ -25,54 +14,39 @@ def config_models(app) -> None:
 class Contents(db.Model):
    __tablename__ = 'contents'
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-   id    = db.Column(db.String(36), primary_key=True, nullable=True)
-   title = db.Column(db.String(256), nullable=True)
-   body  = db.Column(db.Text)
-
-   def __init__(self, id: str, title: str, body: int) -> None:
-      self.id    = id
-      self.title = title
-      self.body  = body
-=======
-=======
->>>>>>> 78d4ede (create auth)
-   StatusEnum = Enum('draft', 'published', name='StatusEnum')
-   TypeEnum   = Enum('public', 'private', name='TypeEnum')
-
-   id     = Column(String(36), primary_key=True, nullable=False)
-   title  = Column(String(256), nullable=False)
-   body   = Column(Text)
-   status = Column(StatusEnum, default='draft')
-   type   = Column(TypeEnum, default='public')
+   id          = Column(String(36), primary_key=True, nullable=False, unique=True)
+   title       = Column(String(256), nullable=False)
+   body        = Column(Text)
+   slug        = Column(String(256), nullable=False, unique=True)
+   status      = Column(String, CheckConstraint("status IN ('published', 'draft')"), default='draft')
+   accessType  = Column(String, CheckConstraint("type IN ('public', 'private')"), default='public')
+   description = Column(String(1000), default='') 
+   created_at  = Column(DateTime, default=datetime.now)
+   updated_at  = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
 
-   def __init__(self, id: str, title: str, body:str, status:str, type:str) -> None:
-      self.id     = id
-      self.title  = title
-      self.body   = body 
-      self.status = status
-      self.type   = type
+   def __init__(self, id: str, title: str, body:str, slug:str, status:str, accessType:str, description:str) -> None:
+      self.id          = id
+      self.title       = title
+      self.body        = body
+      self.slug        = slug
+      self.status      = status
+      self.accessType  = accessType
+      self.description = description
    
 
 class Users(db.Model):
    __tablename__ = 'users'
 
-   UserTypeEnum   = Enum('user', 'admin', name='TypeEnum')
-
-   id        = Column(String(36), primary_key=True, nullable=False)
-   username  = Column(String(20), nullable=False)
-   password  = Column(String(100), nullable=False)
-   userType = Column(UserTypeEnum, nullable=False, default='user')
+   id         = Column(String(36), primary_key=True, nullable=False, unique=True)
+   username   = Column(String(50), nullable=False, unique=True)
+   password   = Column(String(100), nullable=False)
+   userType   = Column(String, CheckConstraint("userType IN ('admin' , 'user')"), nullable=False, default='user')
+   created_at = db.Column(db.DateTime, default=datetime.now)
+   updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
    def __init__(self, id:str, username: str, password:str, userType:str) -> None:
       self.id = id
       self.username = username
       self.password = password
-<<<<<<< HEAD
       self.userType = userType
->>>>>>> 78d4ede (create auth)
-=======
-      self.userType = userType
->>>>>>> 78d4ede (create auth)

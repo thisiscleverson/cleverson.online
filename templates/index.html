@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
   
 {% block y %}
-<<<<<<< HEAD
    <ul class="post-list">
       {% for content in contents %}
       <li>
@@ -13,13 +12,5 @@
       </li>
       {% endfor %}
    </ul>
-=======
-  
-   {% if session.name %}
-      You are Register {{ session.name }} <a href="/logout">logout</a>.
-   {% else %}
-      You are not Register. <a href="/login">login</a>.
-   {% endif %}
->>>>>>> 78d4ede (create auth)
   
 {% endblock %}

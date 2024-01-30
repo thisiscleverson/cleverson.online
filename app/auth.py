@@ -1,61 +1,106 @@
+import bcrypt
 from uuid import uuid4
-from flask import Blueprint, redirect, session, jsonify, render_template, request
+from flask import Blueprint, redirect, session, render_template, request, flash
+from sqlalchemy.sql import exists
 
-from .models import Contents,Users, db
+from app.models import Users, db
 
-
-auth = Blueprint('account', __name__)
+auth = Blueprint('auth', __name__)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-   if request.method == 'POST':
-      USERNAME = request.form.get('username')
-      PASSWORD = request.form.get('password')
-      
-      query = Users.query.filter(Users.username==USERNAME, Users.password==PASSWORD)
-      result = query.first()
+    error = None
+    if request.method == 'POST':
+        username, password = get_username_and_password()
 
-      if result:
-         session["token"] = uuid4()
-         return redirect("/")
-      else:
-         return jsonify({"message": "usuario ou senha incorreta!" })
-   return render_template('login.html')
+        if check_username_exist(username):
+
+            hashpass = get_hash_password(username)
+            user_type = get_user_type(username)
+
+            if bcrypt.checkpw(password.encode('utf-8'), hashpass):
+                if user_type == 'admin':
+                    session["token"] = uuid4()
+                    return redirect("/admin")
+                else:
+                    flash("Você não tem permissão para acessar essa página!\nÉ necessário pedir permissão para o admin da página!")
+            else:
+                flash("Usuário ou senha incorretas!")
+        else:
+            flash("Usuário não existe!")
+    return render_template('auth/login.html', error=error)
 
 
 @auth.route('/logout')
 def logout():
-   session["token"] = None
-   return redirect("/")
+    session["token"] = None
+    print('logout')
+    return redirect("/admin")
 
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-   if request.method == 'POST':
-      #registrar como admin 
-      if Users.query.count() == 0:
-         db.session.add(
-            Users(
-               id = str(uuid4()),
-               username=request.form.get('username'),
-               password=request.form.get('password'),
-               userType='admin'
-            )
-         )
-         db.session.commit()
-         return redirect("/login")
+    error = None
+    if request.method == 'POST':
+        username, password = get_username_and_password()
 
-      else:
-         db.session.add(
-            Users(
-               id = str(uuid4()),
-               username=request.form.get('username'),
-               password=request.form.get('password'),
-               userType='user'
+        # registrar como admin
+        if Users.query.count() == 0:
+            register_user(
+                username=username,
+                password=password,
+                user_type='admin'
             )
-         )
-         db.session.commit()
-         return redirect("/login")
-         
-   return render_template('register.html')
+            return redirect("/login")
+        else:
+            username_exist = check_username_exist(username)
+            if not username_exist:
+                register_user(
+                    username=username,
+                    password=password,
+                    user_type='user'
+                )
+                return redirect("/login")
+            else:
+                error = "usuário já cadastrado!"
+    return render_template('auth/register.html', error=error)
+
+
+
+def get_hash_password(username):
+    hash_password = Users.query.filter_by(username=username).first().password
+    return hash_password
+
+
+def get_user_type(username):
+    user_type = Users.query.filter_by(username=username).first().userType
+    return user_type
+
+
+def check_username_exist(username):
+    query = Users.query.filter(Users.username == username)
+    result = query.first()
+    return result
+
+
+def get_username_and_password():
+    return request.form.get('username'), request.form.get('password')
+
+
+def register_user(username, password, user_type):
+    db.session.add(
+        Users(
+            id=str(uuid4()),
+            username=username,
+            password=encrypt_password(password),
+            userType=user_type
+        )
+    )
+    db.session.commit()
+
+
+def encrypt_password(password):
+    byte_password = password.encode('utf-8')
+    hash_password = bcrypt.hashpw(byte_password, bcrypt.gensalt())
+    return hash_password
