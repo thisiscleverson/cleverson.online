@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+  
+{% block y %}
+<<<<<<< HEAD
+   <ul class="post-list">
+      {% for content in contents %}
+      <li>
+         <div>
+            <h3><a class="post-link" href="/{{ content.slug }}">{{ content.title}}</a></h3>
+            <span class="post-meta">{{ content.created_at.strftime("%d/%m/%Y, %H:%M %p") }}</span>
+            <p>{{ content.description}} <a style="font-size: 0.8em;" href="/{{ content.slug }}">continuar lendo</a></p>
+         </div>
+      </li>
+      {% endfor %}
+   </ul>
+=======
+  
+   {% if session.name %}
+      You are Register {{ session.name }} <a href="/logout">logout</a>.
+   {% else %}
+      You are not Register. <a href="/login">login</a>.
+   {% endif %}
+>>>>>>> 78d4ede (create auth)
+  
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+  
+{% block y %}
+
+   {% include 'components/alert.html'%}
+
+   <form action="/publish" method="POST" class="container-editor">
+      <h1>Publicar novo conteúdo</h1>
+      
+      <div class="div-title">
+         <label for="title">titulo</label>
+         <input type="text" id="title" name="title" placeholder="titulo" value="{{title}}" required>
+      </div>
+      
+      <label for="editor">corpo do conteúdo</label>
+      <div id="editor">
+         <textarea name="markdown-content" id="markdown-content" required>{{body}}</textarea>
+
+         <div id="html-preview"></div>
+      </div>
+
+      <label for="description">descrição</label>
+      <textarea name="description" id="description">{{description}}</textarea>
+
+      <div class="div-buttons">
+         {% if is_draft_mode %}
+            <input type="button" class="bt-draft" name="salvar" value="salvar" onclick="draftButton()">
+            <input type="submit" class="bt-publish" name="publicar" value="publicar">
+         {% else %}
+            <input type="button" class="bt-update" value="atualizar" onclick="updateButton('{{id}}')">
+            <input type="button" class="bt-publish" value="publicar" onclick="publish('{{id}}')">
+         {% endif %}
+      </div>
+   </form>
+   <script type="text/javascript" src="{{ url_for('static',    filename='js/markdownEditor.js') }}"></script>
+   <script type="text/javascript" src="{{ url_for('static',    filename='js/editorButton.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+  
+{% block y %}
+   <h1 class="post-title">{{title}}</h1>
+   <span class="post-meta">{{ date }}</span>
+
+   <div id="markdown-preview" class="container-body" ></div>
+
+   <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+         const text = ({{body | tojson | safe}});
+
+         const htmlPreview = document.getElementById('markdown-preview');
+         htmlPreview.innerHTML = marked.parse(text);
+      });
+  </script>
+{% endblock %}

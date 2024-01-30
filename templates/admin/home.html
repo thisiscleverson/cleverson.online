@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+  
+{% block y %}
+   
+   {% for message in get_flashed_messages() %}
+   <div class="alert alert-warning">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <p>{{ message }}</p>
+   </div>
+   {% endfor %}
+
+   <div class="admin-container">
+      <h1>Admin</h1>
+
+
+      <div class="buttons-container">
+         <a href="/publish">
+            <img width="35px" src="{{ url_for('static',    filename='icons/pen.svg') }}">
+            <span>Novo conteúdo</span>
+         </a>
+         <a href="/logout">
+            <img width="35px" src="{{ url_for('static',    filename='icons/logout.svg') }}">
+            <span>Logout</span>
+         </a>
+      </div>
+   </div>
+
+
+   <h2>lista de rascunho</h2>
+
+   <table>
+      {% for content in draft_list %}
+         <tr>
+            <td class="table-cell-container">
+               <a href="/update/{{ content.id }}">{{ content.title}}</a>
+               <button type="button" class="bt-delete" onclick="buttonDeletePost('{{content.id}}')">deletar</button>
+            </td>
+         </tr>
+      {% endfor %}
+   </table>
+
+   <h2 class="contents-list-title">Conteudos publicados</h2>
+   <table>
+      {% for content in contents_list %}
+         <tr>
+            <td class="table-cell-container">
+               <a href="/{{ content.slug }}">{{ content.title}}</a>
+               <div class="buttons-container">
+                  <a href="/update/{{ content.id }}">editar</a>
+                  <button type="button" class="bt-delete" onclick="buttonDeletePost('{{content.id}}')">deletar</button>
+               </div>
+            </td>
+         </tr>
+      {% endfor %}
+   </table>
+
+   <script type="text/javascript" src="{{ url_for('static',    filename='js/buttonDeletePost.js') }}"></script>
+{% endblock %}

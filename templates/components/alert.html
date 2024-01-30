@@ -1,0 +1,6 @@
+{% for message in get_flashed_messages() %}
+   <div class="alert alert-warning">
+      <button type="button" class="bt-close" data-dismiss="alert">&times;</button>
+      <span class="alert-message">{{ message }}</span>
+   </div>
+{% endfor %}
