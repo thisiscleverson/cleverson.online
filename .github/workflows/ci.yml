@@ -23,9 +23,9 @@ jobs:
           EXCLUDE: ".env, /test/, .gitignore"
           SCRIPT_AFTER: | 
             # Criar o ambiente virtual
-            python3.11 -m venv /var/www/blog/venv
+            python3.11 -m venv /var/www/blog/.venv
             # Ativar o ambiente virtual
-            source /var/www/blog/venv/bin/activate
+            source /var/www/blog/.venv/bin/activate
             # Atualizar o pip e instalar as dependências
             python3.11 -m pip install --upgrade pip
             pip install -r /var/www/blog/requirements.txt
