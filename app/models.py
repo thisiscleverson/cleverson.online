@@ -21,8 +21,8 @@ class Contents(db.Model):
    status      = Column(String, CheckConstraint("status IN ('published', 'draft')"), default='draft')
    accessType  = Column(String, CheckConstraint("type IN ('public', 'private')"), default='public')
    description = Column(String(1000), default='') 
-   created_at  = Column(DateTime, default=datetime.now)
-   updated_at  = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+   created_at  = Column(DateTime, default=datetime.utcnow)
+   updated_at  = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
    def __init__(self, id: str, title: str, body:str, slug:str, status:str, accessType:str, description:str) -> None:
@@ -42,8 +42,8 @@ class Users(db.Model):
    username   = Column(String(50), nullable=False, unique=True)
    password   = Column(String(100), nullable=False)
    userType   = Column(String, CheckConstraint("userType IN ('admin' , 'user')"), nullable=False, default='user')
-   created_at = db.Column(db.DateTime, default=datetime.now)
-   updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+   created_at = db.Column(db.DateTime, default=datetime.utcnow)
+   updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
    def __init__(self, id:str, username: str, password:str, userType:str) -> None:
       self.id = id
