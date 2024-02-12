@@ -1,8 +1,17 @@
+import os
 from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_session import Session
 
 from .models import config_models
+
+db_dir = '/.database'
+
+
+def config_database_path(db_dir):
+   path_dir = os.path.expanduser('~') + db_dir
+   os.makedirs(path_dir, exist_ok=True)
+   return os.path.join(path_dir, 'blog.db')
 
 
 def create_register_blueprint(app):
@@ -31,7 +40,7 @@ def create_app():
                 static_folder='../static'
          )
 
-   app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db" 
+   app.config["SQLALCHEMY_DATABASE_URI"] = f'sqlite:///{config_database_path(db_dir)}' 
    app.config["SESSION_PERMANENT"] = False
    app.config["SESSION_TYPE"] = "filesystem"
 
