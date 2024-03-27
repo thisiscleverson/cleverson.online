@@ -1,0 +1,28 @@
+version: "3.5"
+
+services:  
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      - FLASK_SERVER_ADDR=app:5000
+    depends_on:
+      - app
+    ports:
+       - "80:80"  
+
+  app:
+    build:
+      context: .
+    ports: 
+      - '5000:5000'
+    volumes:
+      - ${HOME}/.database:/root/.database
+    command: gunicorn -w 2 -b 0.0.0.0:5000 wsgi:app
+  
+
+networks:
+  default:
+    driver: bridge
+    name: cleverson.online
