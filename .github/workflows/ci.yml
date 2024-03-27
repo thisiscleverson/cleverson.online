@@ -20,5 +20,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET }}
-          EXCLUDE: ".env, /test/, .gitignore"
-        
+          EXCLUDE: ".env, /test/, .gitignore, README.md"
+          SCRIPT_AFTER: |
+            make deploy
