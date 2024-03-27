@@ -12,7 +12,7 @@ jobs:
       - name: 🔍 Checkout do repositorio
         uses: actions/checkout@v3
                        
-      - name: 🚀 Deploy to vps
+      - name: 🚀 Deploy
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSHKEY }}
@@ -21,14 +21,4 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET }}
           EXCLUDE: ".env, /test/, .gitignore"
-          SCRIPT_AFTER: | 
-            # Criar o ambiente virtual
-            python3.11 -m venv /var/www/blog/.venv
-            # Ativar o ambiente virtual
-            source /var/www/blog/.venv/bin/activate
-            # Atualizar o pip e instalar as dependências
-            python3.11 -m pip install --upgrade pip
-            pip install -r /var/www/blog/requirements.txt
-            # Desativar o ambiente virtual
-            deactivate
-            sudo service apache2 restart
+        
