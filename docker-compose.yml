@@ -5,12 +5,15 @@ services:
     image: nginx:latest
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     environment:
       - FLASK_SERVER_ADDR=app:5000
+      - DOMAIN=cleverson.online
     depends_on:
       - app
     ports:
-       - "80:80"  
+       - "80:80"
+       - "443:443"
 
   app:
     build:
