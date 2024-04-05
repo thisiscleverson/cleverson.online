@@ -11,7 +11,7 @@ status:
 	sudo systemctl status app
 
 build:
-	docker compose up --build -d
+	docker compose up --build
 
 deploy: build stop
 	sudo cp ./app.service /etc/systemd/system/ && \
