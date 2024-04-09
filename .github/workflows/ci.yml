@@ -23,4 +23,3 @@ jobs:
           EXCLUDE: ".env, /test/, .gitignore, README.md"
           SCRIPT_AFTER: |
             make deploy
-        run: make deploy
