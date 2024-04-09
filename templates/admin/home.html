@@ -14,7 +14,7 @@
 
 
       <div class="buttons-container">
-         <a href="/publish">
+         <a href="/publicar">
             <img width="35px" src="{{ url_for('static',    filename='icons/pen.svg') }}">
             <span>Novo conteúdo</span>
          </a>
@@ -32,21 +32,26 @@
       {% for content in draft_list %}
          <tr>
             <td class="table-cell-container">
-               <a href="/update/{{ content.id }}">{{ content.title}}</a>
-               <button type="button" class="bt-delete" onclick="buttonDeletePost('{{content.id}}')">deletar</button>
+               <a href="/{{ content.slug }}">{{ content.title}}</a>
+               <div class="buttons-container">
+                  <a href="/editar/{{ content.id }}">editar</a>
+                  <button type="button" class="bt-delete" onclick="buttonDeletePost('{{content.id}}')">deletar</button>
+               </div>
             </td>
          </tr>
       {% endfor %}
    </table>
 
+
    <h2 class="contents-list-title">Conteudos publicados</h2>
+
    <table>
       {% for content in contents_list %}
          <tr>
             <td class="table-cell-container">
                <a href="/{{ content.slug }}">{{ content.title}}</a>
                <div class="buttons-container">
-                  <a href="/update/{{ content.id }}">editar</a>
+                  <a href="/editar/{{ content.id }}">editar</a>
                   <button type="button" class="bt-delete" onclick="buttonDeletePost('{{content.id}}')">deletar</button>
                </div>
             </td>
