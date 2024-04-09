@@ -13,7 +13,8 @@ status:
 build:
 	docker compose up --build
 
-deploy: build stop
-	sudo cp ./app.service /etc/systemd/system/ && \
-	sudo systemctl enable app && \
-	sudo systemctl restart app
+deploy: 
+	cd /var/www/cleverson.online \
+	docker-compose down \
+	docker-compose pull \
+	docker-compose up -d
