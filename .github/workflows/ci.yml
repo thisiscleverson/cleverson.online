@@ -22,4 +22,7 @@ jobs:
           TARGET: ${{ secrets.TARGET }}
           EXCLUDE: ".env, /test/, .gitignore, README.md"
           SCRIPT_AFTER: |
-            make deploy
+            cd /var/www/${{ secrets.TARGET }}
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
