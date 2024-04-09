@@ -2,7 +2,7 @@ const BASEURL = window.location.origin
 
 const buttonDeletePost = (id) => {
    
-   fetch(BASEURL + `/delete/post/${id}`, {
+   fetch(BASEURL + `/api/delete/post/${id}`, {
       method: "DELETE",
       headers: {
          'Accept': 'application/json',
