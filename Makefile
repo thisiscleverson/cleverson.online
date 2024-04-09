@@ -14,7 +14,6 @@ build:
 	docker compose up --build
 
 deploy: 
-	cd /var/www/cleverson.online \
 	docker-compose down \
 	docker-compose pull \
 	docker-compose up -d
