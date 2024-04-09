@@ -14,6 +14,6 @@ build:
 	docker compose up --build
 
 deploy: 
-	docker compose down \
-	docker compose pull \
-	docker compose up -d \
+	docker compose down && \
+	docker compose pull && \
+	docker compose up -d 
