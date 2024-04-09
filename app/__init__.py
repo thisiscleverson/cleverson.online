@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask_session import Session
 
 from .models import config_models
+from .errorhandler import page_not_found, internal_error
+
 
 db_dir = '/.database'
 
@@ -18,27 +20,25 @@ def create_register_blueprint(app):
    from .auth import auth
    from .admin import admin
    from .blog import blog
-
+   from .api import api
+   
    app.register_blueprint(auth)
    app.register_blueprint(admin)
    app.register_blueprint(blog)
+   app.register_blueprint(api)
 
 
-def erro_handler(app):
-   @app.errorhandler(404)
-   def page_not_found(error):
-      return render_template('errorHandler/404.html'), 404
-
-   @app.errorhandler(500)
-   def internal_error(error):
-      return render_template('errorHandler/500.html'), 500
+def create_register_erro_handler(app):
+   app.register_error_handler(404, page_not_found)
+   app.register_error_handler(500, internal_error)
 
 
 def create_app():
-   app = Flask(__name__,
-                template_folder='../templates',
-                static_folder='../static'
-         )
+   app = Flask(
+      __name__,
+      template_folder='../templates',
+      static_folder='../static'
+   )
 
    app.config["SQLALCHEMY_DATABASE_URI"] = f'sqlite:///{config_database_path(db_dir)}' 
    app.config["SESSION_PERMANENT"] = False
@@ -48,8 +48,7 @@ def create_app():
    config_models(app) 
    Migrate(app, app.db)
    create_register_blueprint(app)
-
-   erro_handler(app)
+   create_register_erro_handler(app)
 
    return app
 
