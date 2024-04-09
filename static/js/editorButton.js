@@ -11,10 +11,11 @@ const draftButton =  () => {
    const dataJson = {
       "title": title.value,
       "body": body.value,
-      "description": description.value
+      "description": description.value,
+      "status_publication":"draft"
    }
 
-   fetch(BASEURL + '/draft', {
+   fetch(BASEURL + '/api/publish', {
       method: "POST",
       headers: {
          'Accept': 'application/json',
@@ -34,7 +35,7 @@ const draftButton =  () => {
 }; 
 
 
-const updateButton = (draft_id) => {
+const updateButton = (draft_id, publish = false) => {
    const title = document.getElementById("title")
    const body  = document.getElementById("markdown-content")
    const description =  document.getElementById("description")
@@ -42,11 +43,13 @@ const updateButton = (draft_id) => {
    const dataJson = {
       "title": title.value,
       "body": body.value,
-      "description": description.value
+      "description": description.value,
+      "status_publication": publish ? "published": "draft"
+
    }
 
-   fetch(BASEURL + `/update/${draft_id}`, {
-      method: "POST",
+   fetch(BASEURL + `/api/update/${draft_id}`, {
+      method: "PUT",
       headers: {
          'Accept': 'application/json',
          'Content-Type': 'application/json'
@@ -64,7 +67,8 @@ const updateButton = (draft_id) => {
    })
 }
 
-const publish = (draft_id) => {
+
+const publish = () => {
    const title = document.getElementById("title")
    const body  = document.getElementById("markdown-content")
    const description =  document.getElementById("description")
@@ -72,11 +76,12 @@ const publish = (draft_id) => {
    const dataJson = {
       "title": title.value,
       "body": body.value,
-      "description": description.value
+      "description": description.value,
+      "status_publication":"published"
    }
 
-   fetch(BASEURL + `/update/${draft_id}`, {
-      method: "PUT",
+   fetch(BASEURL + `/api/publish`, {
+      method: "POST",
       headers: {
          'Accept': 'application/json',
          'Content-Type': 'application/json'

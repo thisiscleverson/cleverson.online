@@ -4,7 +4,7 @@
 
    {% include 'components/alert.html'%}
 
-   <form action="/publish" method="POST" class="container-editor">
+   <form class="container-editor">
       <h1>Publicar novo conteúdo</h1>
       
       <div class="div-title">
@@ -23,15 +23,19 @@
       <textarea name="description" id="description">{{description}}</textarea>
 
       <div class="div-buttons">
-         {% if is_draft_mode %}
-            <input type="button" class="bt-draft" name="salvar" value="salvar" onclick="draftButton()">
-            <input type="submit" class="bt-publish" name="publicar" value="publicar">
-         {% else %}
+         {% if status == 'draft'%}
             <input type="button" class="bt-update" value="atualizar" onclick="updateButton('{{id}}')">
-            <input type="button" class="bt-publish" value="publicar" onclick="publish('{{id}}')">
+            <input type="button" class="bt-publish" value="publicar" onclick="updateButton('{{id}}', true)">
+         {% elif status == 'published'%}
+            <input type="button" class="bt-hide" value="ocultar" onclick="updateButton('{{id}}')">
+            <input type="button" class="bt-update" value="atualizar" onclick="updateButton('{{id}}', true)">
+         {% else %}
+            <input type="button" class="bt-draft" name="salvar" value="salvar" onclick="draftButton()">
+            <input type="button" class="bt-publish" value="publicar" onclick="publish()">
          {% endif %}
       </div>
    </form>
+
    <script type="text/javascript" src="{{ url_for('static',    filename='js/markdownEditor.js') }}"></script>
    <script type="text/javascript" src="{{ url_for('static',    filename='js/editorButton.js') }}"></script>
 {% endblock %}
