@@ -22,7 +22,7 @@ jobs:
           TARGET: ${{ secrets.TARGET }}
           EXCLUDE: ".env, /test/, .gitignore, README.md"
           SCRIPT_AFTER: |
-            cd /var/www/${{ secrets.TARGET }}
+            cd /var/www/cleverson.online
             docker-compose down
             docker-compose pull
             docker-compose up -d
