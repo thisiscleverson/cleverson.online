@@ -15,4 +15,4 @@ build:
 
 deploy: 
 	docker compose down && \
-	docker compose up --bulid -d
+	docker compose up --build -d
