@@ -1,7 +1,6 @@
 #editor {
   display: flex;
   position: relative;
-  width: fit-content;
   justify-content: center;
   width: 100%;
   height: 480px;
@@ -9,7 +8,7 @@
 
 #markdown-content,
 #html-preview {
-  padding: 20px;
+  padding: 40px 20px 0 20px;
   width: 100%;
   height: auto;
   overflow-y: auto;

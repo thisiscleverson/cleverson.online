@@ -4,7 +4,7 @@
 
    {% include 'components/alert.html'%}
 
-   <form class="container-editor">
+   <div class="container-editor">
       <h1>Publicar novo conteúdo</h1>
       
       <div class="div-title">
@@ -13,7 +13,13 @@
       </div>
       
       <label for="editor">corpo do conteúdo</label>
-      <div id="editor">
+      <div class="editor-component">
+         <button id="expandButton">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="none" viewBox="0 0 48 48">
+               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M33 6h9v9M42 33v9h-9M15 42H6v-9M6 15V6h9"></path>
+            </svg>
+         </button>
+         
          <textarea name="markdown-content" id="markdown-content" required>{{body}}</textarea>
 
          <div id="html-preview"></div>
@@ -34,8 +40,9 @@
             <input type="button" class="bt-publish" value="publicar" onclick="publish()">
          {% endif %}
       </div>
-   </form>
+   </div>
 
    <script type="text/javascript" src="{{ url_for('static',    filename='js/markdownEditor.js') }}"></script>
    <script type="text/javascript" src="{{ url_for('static',    filename='js/editorButton.js') }}"></script>
+   <script type="text/javascript" src="{{ url_for('static',    filename='js/expandButton.js') }}"></script>
 {% endblock %}
