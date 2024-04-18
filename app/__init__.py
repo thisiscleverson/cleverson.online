@@ -21,11 +21,13 @@ def create_register_blueprint(app):
    from .admin import admin
    from .blog import blog
    from .api import api
+   from .about import about
    
    app.register_blueprint(auth)
    app.register_blueprint(admin)
    app.register_blueprint(blog)
    app.register_blueprint(api)
+   app.register_blueprint(about)
 
 
 def create_register_erro_handler(app):

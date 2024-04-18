@@ -5,11 +5,16 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
         <title>this_is_cleverson</title>
+        <link rel="icon" href="{{ url_for('static', filename='icons/linux.ico') }}" type="Linux icon">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/reset.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/markdown.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <meta
+            name="description"
+            content="Um blog sobre tecnologia"
+        />
     </head>
     <body>
         {% include 'components/header.html' %}
