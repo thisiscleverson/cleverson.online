@@ -4,17 +4,32 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
-        <title>this_is_cleverson</title>
+
+        {% if title != None %}
+            <title>{{title}}</title>
+        {%else%}
+            <title>this_is_cleverson</title>
+        {% endif %}
+
+        <meta property="og:site_name" content="this_is_cleverson">
+        <meta name="description" content={{description}}>
+
+        <meta property="og:title" content={{title}}>
+        <meta property="og:description" content={{description}}>
+        <meta property="og:url" content="https://cleverson.online/{{slug}}">
+        <meta property="og:image" content="{{ url_for('static', filename='imgs/thisiscleverson.jpg') }}">
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content={{title}}>
+        <meta name="twitter:description" content={{description}}>
+        <meta name="twitter:image" content="{{ url_for('static', filename='imgs/thisiscleverson.jpg') }}">
+        
         <link rel="icon" href="{{ url_for('static', filename='icons/linux.ico') }}" type="Linux icon">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/reset.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/markdown.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-        <meta
-            name="description"
-            content="Um blog sobre tecnologia"
-        />
     </head>
     <body>
         {% include 'components/header.html' %}

@@ -34,8 +34,10 @@ def render_text(slug):
    title = data.title
    body  = data.body
    date  = convert_datetime(data.created_at).strftime("%d/%m/%Y, %H:%M %p") 
+   slug  = data.slug
+   description = data.description
 
-   return render_template('blog/render_text.html', title=title, body=body, date=date)
+   return render_template('blog/render_text.html', title=title, body=body, date=date, slug=slug, description=description)
 
 
 def convert_datetime(datetime):
