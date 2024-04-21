@@ -30,7 +30,9 @@
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/reset.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/markdown.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static',    filename='css/ads.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+        
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     </head>
     <body>
@@ -42,7 +44,7 @@
         </main>
         {%  include 'components/footer.html' %}
     </body>
-    <script type="text/javascript" src="{{ url_for('static',    filename='js/btCloseAlert.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',    filename='js/btCloseAlert.js') }}"></>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
 </html>

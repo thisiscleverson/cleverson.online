@@ -1,0 +1,27 @@
+.mobileShow { 
+   display: none; 
+   margin-left: auto;
+   margin-right: auto;
+}
+
+/* Smartphone Portrait and Landscape */
+@media only screen
+  and (min-device-width : 320px)
+  and (max-device-width : 480px){ 
+    .mobileShow {
+      display: inline;
+   }
+}
+
+.mobileHide { 
+   display: inline; 
+   margin-left: auto;
+   margin-right: auto;
+}
+
+/* Smartphone Portrait and Landscape */
+@media only screen
+  and (min-device-width : 320px)
+  and (max-device-width : 480px){
+   .mobileHide { display: none;}
+}

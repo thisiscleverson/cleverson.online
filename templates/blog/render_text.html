@@ -6,12 +6,40 @@
 
    <div id="markdown-preview" class="container-body" ></div>
 
+   
+   <div class="mobileShow">
+      <script type="text/javascript">
+         atOptions = {
+            'key' : 'c34b890830441c5779af24050c237fdb',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+         };
+      </script>
+      <script type="text/javascript" src="//www.topcreativeformat.com/c34b890830441c5779af24050c237fdb/invoke.js"></script>
+   </div>
+
+   <div class="mobileHide">
+      <script type="text/javascript">
+         atOptions = {
+            'key' : 'e8da11898f0876eb2f24d27e7c94739b',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+         };
+      </script>
+      <script type="text/javascript" src="//www.topcreativeformat.com/e8da11898f0876eb2f24d27e7c94739b/invoke.js"></script>
+   </div> 
+   
+   
    <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', function() {
          const text = ({{body | tojson | safe}});
-
+         
          const htmlPreview = document.getElementById('markdown-preview');
          htmlPreview.innerHTML = marked.parse(text);
       });
-  </script>
+   </script>
 {% endblock %}
