@@ -3,6 +3,8 @@ from uuid import uuid4
 from unidecode import unidecode
 from flask import Blueprint, request, redirect, session, render_template, flash, jsonify
 from typing import Tuple, Union
+from slugify import slugify as slug
+
 
 from app.models import Contents, db
 
@@ -22,12 +24,6 @@ class ContentManager:
    def update_content(self, id:str, title: str, body: str, description:str, status:str) -> None:
       Contents.query.filter_by(id=id).update({Contents.title:title, Contents.body:body, Contents.status:status, Contents.description:description})
       db.session.commit()
-
-   def generate_slug(self, title:str) -> str:
-      title = unidecode(title)
-      slug  = re.sub(r'[^\w\s-]', '', title.lower())
-      slug  = re.sub(r'\s', '-', slug)
-      return slug
    
    def extract_json_data(self, request:request, keys:list) -> dict:
       """
@@ -64,7 +60,7 @@ class ContentManager:
             id=str(uuid4()),
             title=title,
             body=body,
-            slug=self.generate_slug(title),
+            slug=slug(title),
             status=status,
             accessType=accessType,
             description=description
