@@ -18,13 +18,13 @@
         <meta property="og:title" content="{{title if title else 'this_is_cleverson'}}">
         <meta property="og:description" content="{{description if description else 'Um blog sobre tecnologia'}}">
         <meta property="og:url" content="https://cleverson.online/{{slug}}">
-        <meta property="og:image" content="{{ url_for('static', filename='imgs/thisiscleverson.jpg') }}">
+        <meta property="og:image" content="https://cleverson.online{{ url_for('static', filename='imgs/thisiscleverson.jpg') }}">
 
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="{{title if title else 'this_is_cleverson'}}">
         <meta name="twitter:description" content="{{description if description else 'Um blog sobre tecnologia'}}">
         <meta property="twitter:url" content="https://cleverson.online/{{slug}}">
-        <meta name="twitter:image" content="{{ url_for('static', filename='imgs/thisiscleverson.jpg') }}">
+        <meta name="twitter:image" content="https://cleverson.online{{ url_for('static', filename='imgs/thisiscleverson.jpg') }}">
         
         <link rel="icon" href="{{ url_for('static', filename='icons/linux.ico') }}" type="Linux icon">
         <link rel="stylesheet" href="{{ url_for('static',    filename='css/reset.css') }}">
