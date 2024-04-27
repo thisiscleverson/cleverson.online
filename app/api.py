@@ -4,6 +4,7 @@ from unidecode import unidecode
 from flask import Blueprint, request, redirect, session, render_template, flash, jsonify
 from typing import Tuple, Union
 from slugify import slugify as slug
+from datetime import datetime
 
 
 from app.models import Contents, db
@@ -21,8 +22,14 @@ class ContentManager:
    def data_valid(self, title: str, content: str) -> bool:
       return len(title.strip()) > 0 and len(content.strip()) > 0
 
-   def update_content(self, id:str, title: str, body: str, description:str, status:str) -> None:
-      Contents.query.filter_by(id=id).update({Contents.title:title, Contents.body:body, Contents.status:status, Contents.description:description})
+   def update_content(self, id:str, title: str, body: str, description:str, status:str, published_at:datetime) -> None:
+      Contents.query.filter_by(id=id).update({
+         Contents.title:title, 
+         Contents.body:body, 
+         Contents.status:status, 
+         Contents.description:description, 
+         Contents.published_at:published_at
+      })
       db.session.commit()
    
    def extract_json_data(self, request:request, keys:list) -> dict:
@@ -50,7 +57,7 @@ class ContentManager:
 
       return extracted_data
 
-   def insert_content(self, title: str, body: str, status: str, description:str, accessType: str = 'public') -> None:
+   def insert_content(self, title: str, body: str, status: str, description:str, published_at:datetime, accessType: str = 'public') -> None:
       """
       status: "published" or "draft"
       accessType: "public" or "private"
@@ -63,7 +70,8 @@ class ContentManager:
             slug=slug(title),
             status=status,
             accessType=accessType,
-            description=description
+            description=description,
+            published_at=published_at
          )
       )
       db.session.commit()
@@ -102,12 +110,18 @@ def publish_post():
          "message": "O titulo ou texto não está preenchido adequadamente! Por favor, verifique se você preencheu os campo corretamente!",
          "status_code": 400
       }), 400
+   
+   
+   date_published = None
+   if status_publication == "published":
+      date_published =  datetime.utcnow()
 
    contentManager.insert_content(
       title=title,
       body=body,
       status=status_publication,
-      description=description
+      description=description,
+      published_at =date_published
    )
 
    return jsonify({
@@ -168,12 +182,20 @@ def update_post(id):
          "status_code": 400
       }), 400
    
+   post = Contents.query.filter(Contents.id == id).first()
+
+   date_published = None
+   if post.status == "draft" and status_publication == "published":
+      date_published = datetime.utcnow()
+   
+
    contentManager.update_content(
       id=id,
       title=title,
       body=body,
       status=status_publication,
-      description=description
+      description=description,
+      published_at=date_published
    )
 
    return jsonify({

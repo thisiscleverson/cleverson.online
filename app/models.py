@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.event import listens_for
 from sqlalchemy import Integer, String, Column, Text, Enum, CheckConstraint, DateTime
 
 
@@ -14,26 +15,28 @@ def config_models(app) -> None:
 class Contents(db.Model):
    __tablename__ = 'contents'
 
-   id          = Column(String(36), primary_key=True, nullable=False, unique=True)
-   title       = Column(String(256), nullable=False)
-   body        = Column(Text)
-   slug        = Column(String(256), nullable=False, unique=True)
-   status      = Column(String, CheckConstraint("status IN ('published', 'draft')"), default='draft')
-   accessType  = Column(String, CheckConstraint("type IN ('public', 'private')"), default='public')
-   description = Column(String(1000), default='') 
-   created_at  = Column(DateTime, default=datetime.utcnow)
-   updated_at  = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+   id           = Column(String(36), primary_key=True, nullable=False, unique=True)
+   title        = Column(String(256), nullable=False)
+   body         = Column(Text)
+   slug         = Column(String(256), nullable=False, unique=True)
+   status       = Column(String, CheckConstraint("status IN ('published', 'draft')"), default='draft')
+   accessType   = Column(String, CheckConstraint("type IN ('public', 'private')"), default='public')
+   description  = Column(String(1000), default='') 
+   published_at = Column(DateTime, nullable=True)
+   created_at   = Column(DateTime, default=datetime.utcnow)
+   updated_at   = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
-   def __init__(self, id: str, title: str, body:str, slug:str, status:str, accessType:str, description:str) -> None:
-      self.id          = id
-      self.title       = title
-      self.body        = body
-      self.slug        = slug
-      self.status      = status
-      self.accessType  = accessType
-      self.description = description
-   
+   def __init__(self, id: str, title: str, body:str, slug:str, status:str, accessType:str, description:str, published_at:datetime) -> None:
+      self.id           = id
+      self.title        = title
+      self.body         = body
+      self.slug         = slug
+      self.status       = status
+      self.accessType   = accessType
+      self.description  = description
+      self.published_at = published_at
+
 
 class Users(db.Model):
    __tablename__ = 'users'
