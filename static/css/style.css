@@ -511,7 +511,7 @@ footer{
 }
 
 .img-event{
-   width: -webkit-fill-available;
+   width: auto;
    border-radius: 5px;
 }
 

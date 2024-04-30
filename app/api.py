@@ -187,6 +187,8 @@ def update_post(id):
    date_published = None
    if post.status == "draft" and status_publication == "published":
       date_published = datetime.utcnow()
+   elif post.published_at is not None:
+      date_published = post.published_at 
    
 
    contentManager.update_content(
