@@ -24,6 +24,7 @@ class ContentManager:
 
    def update_content(self, id:str, title: str, body: str, description:str, status:str, published_at:datetime) -> None:
       Contents.query.filter_by(id=id).update({
+         #Contents.slug:slug(title),
          Contents.title:title, 
          Contents.body:body, 
          Contents.status:status, 

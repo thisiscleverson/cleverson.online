@@ -87,6 +87,7 @@
 
 #html-preview li,
 #markdown-preview li {
+  margin-left:20px;
   margin-bottom: 0.5em;
 }
 
